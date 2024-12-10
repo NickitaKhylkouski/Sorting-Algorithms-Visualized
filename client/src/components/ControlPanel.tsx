@@ -33,9 +33,21 @@ export function ControlPanel({
   isEducationalMode,
   onToggleEducationalMode,
 }: ControlPanelProps) {
+  const soundStore = useSoundStore();
+
   return (
     <div className="rounded-lg border bg-card p-6 shadow-sm">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="flex items-center justify-end lg:col-start-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={soundStore.toggleMute}
+            className="mr-2"
+          >
+            {soundStore.muted ? "🔇" : "🔊"}
+          </Button>
+        </div>
         <div className="space-y-2">
           <label className="text-sm font-medium">Algorithm</label>
           <Select

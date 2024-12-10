@@ -36,20 +36,24 @@ export function VisualizationArea({ array }: VisualizationAreaProps) {
           const x = index * barWidth;
           
           let fillColor;
+          let shadow = "";
           switch (element.state) {
             case "comparing":
-              fillColor = "fill-destructive";
+              fillColor = "fill-destructive/90";
+              shadow = "drop-shadow(0 0 4px rgb(239 68 68 / 0.5))";
               break;
             case "sorted":
-              fillColor = "fill-green-500";
+              fillColor = "fill-green-500/90";
+              shadow = "drop-shadow(0 0 2px rgb(34 197 94 / 0.3))";
               break;
             case "pivot":
-              fillColor = "fill-blue-500";
+              fillColor = "fill-blue-500/90";
+              shadow = "drop-shadow(0 0 4px rgb(59 130 246 / 0.5))";
               break;
             default:
-              fillColor = "fill-primary";
+              fillColor = "fill-primary/80";
           }
-          const className = `transition-all duration-200 ${fillColor}`;
+          const className = `transition-all duration-300 ease-in-out hover:brightness-110 ${fillColor} ${shadow}`;
           
           return (
             <rect

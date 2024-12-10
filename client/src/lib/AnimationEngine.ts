@@ -3,6 +3,7 @@ import { quickSort } from "./algorithms/quickSort";
 import { mergeSort } from "./algorithms/mergeSort";
 import type { AlgorithmType } from "../pages/SortingVisualizer";
 import type { AnimationFrame, ArrayElement } from "./types";
+import { useSoundStore } from "./sounds";
 
 export class AnimationEngine {
   private animations: AnimationFrame[] = [];
@@ -27,7 +28,17 @@ export class AnimationEngine {
       return;
     }
 
-    onFrame(this.animations[this.currentFrame].array);
+    const frame = this.animations[this.currentFrame];
+    const soundStore = useSoundStore.getState();
+    
+    // Play appropriate sound based on the operation
+    if (frame.step?.description.includes("Comparing")) {
+      soundStore.playCompare();
+    } else if (frame.step?.description.includes("Swapping")) {
+      soundStore.playSwap();
+    }
+
+    onFrame(frame.array);
     this.currentFrame++;
   }
 
