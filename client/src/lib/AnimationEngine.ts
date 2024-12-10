@@ -2,17 +2,18 @@ import { bubbleSort } from "./algorithms/bubbleSort";
 import { quickSort } from "./algorithms/quickSort";
 import { mergeSort } from "./algorithms/mergeSort";
 import type { AlgorithmType } from "../pages/SortingVisualizer";
+import type { AnimationFrame, ArrayElement } from "./types";
 
 export class AnimationEngine {
-  private animations: number[][] = [];
+  private animations: AnimationFrame[] = [];
   private currentFrame = 0;
   private animationId: number | null = null;
   
   start(
-    array: number[],
+    array: ArrayElement[],
     algorithm: AlgorithmType,
     speed: number,
-    onFrame: (array: number[]) => void,
+    onFrame: (array: ArrayElement[]) => void,
     onComplete: () => void
   ) {
     this.stop();
@@ -37,7 +38,7 @@ export class AnimationEngine {
         return;
       }
       
-      onFrame(this.animations[this.currentFrame]);
+      onFrame(this.animations[this.currentFrame].array);
       this.currentFrame++;
       
       this.animationId = window.setTimeout(

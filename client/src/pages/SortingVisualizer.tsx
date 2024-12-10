@@ -7,8 +7,16 @@ import { AnimationEngine } from "../lib/AnimationEngine";
 
 export type AlgorithmType = "bubble" | "quick" | "merge";
 
-function generateRandomArray(size: number): number[] {
-  return Array.from({ length: size }, () => Math.floor(Math.random() * 100) + 1);
+import { type ArrayElement } from "../lib/types";
+
+function generateRandomArray(size: number): ArrayElement[] {
+  return Array.from(
+    { length: size },
+    () => ({
+      value: Math.floor(Math.random() * 100) + 1,
+      state: "default"
+    })
+  );
 }
 
 export default function SortingVisualizer() {

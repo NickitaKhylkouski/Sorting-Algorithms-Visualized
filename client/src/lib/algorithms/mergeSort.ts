@@ -1,6 +1,8 @@
-export function mergeSort(arr: number[]): number[][] {
-  const animations: number[][] = [];
-  const array = [...arr];
+import { type AnimationFrame, type ArrayElement } from "../types";
+
+export function mergeSort(arr: ArrayElement[]): AnimationFrame[] {
+  const animations: AnimationFrame[] = [];
+  const array: ArrayElement[] = arr.map(el => ({ ...el, state: "default" }));
   
   function merge(left: number, mid: number, right: number) {
     const n1 = mid - left + 1;
@@ -12,30 +14,40 @@ export function mergeSort(arr: number[]): number[][] {
     let i = 0, j = 0, k = left;
     
     while (i < n1 && j < n2) {
-      if (L[i] <= R[j]) {
-        array[k] = L[i];
+      array[k].state = "comparing";
+      if (k > 0) array[k - 1].state = "default";
+      animations.push({ array: array.map(el => ({ ...el })) });
+      
+      if (L[i].value <= R[j].value) {
+        array[k] = { ...L[i], state: "comparing" };
         i++;
       } else {
-        array[k] = R[j];
+        array[k] = { ...R[j], state: "comparing" };
         j++;
       }
       k++;
-      animations.push([...array]);
+      animations.push({ array: array.map(el => ({ ...el })) });
     }
     
     while (i < n1) {
-      array[k] = L[i];
+      array[k] = { ...L[i], state: "comparing" };
+      animations.push({ array: array.map(el => ({ ...el })) });
       i++;
       k++;
-      animations.push([...array]);
     }
     
     while (j < n2) {
-      array[k] = R[j];
+      array[k] = { ...R[j], state: "comparing" };
+      animations.push({ array: array.map(el => ({ ...el })) });
       j++;
       k++;
-      animations.push([...array]);
     }
+    
+    // Mark the merged section as sorted
+    for (let m = left; m <= right; m++) {
+      array[m].state = "sorted";
+    }
+    animations.push({ array: array.map(el => ({ ...el })) });
   }
   
   function mergeSortHelper(left: number, right: number) {
@@ -48,5 +60,10 @@ export function mergeSort(arr: number[]): number[][] {
   }
   
   mergeSortHelper(0, array.length - 1);
+  
+  // Mark all elements as sorted at the end
+  array.forEach(el => el.state = "sorted");
+  animations.push({ array: array.map(el => ({ ...el })) });
+  
   return animations;
 }
