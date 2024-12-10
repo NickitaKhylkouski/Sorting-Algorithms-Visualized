@@ -10,4 +10,12 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
+  
+  .hero-content {
+    @apply opacity-100;
+  }
+  
+  .hero-content.fade-out {
+    @apply opacity-0;
+  }
 }
