@@ -11,28 +11,44 @@ interface VisualizationAreaProps {
 export function VisualizationArea({ array, algorithm, isRunning }: VisualizationAreaProps) {
   const maxValue = useMemo(() => Math.max(...array.map(el => el.value)), [array]);
   const [progress, setProgress] = useState(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  
+  // Estimate duration based on algorithm and array size
+  const getEstimatedDuration = () => {
+    const n = array.length;
+    const baseTime = algorithm === 'bubble' || algorithm === 'insertion' || algorithm === 'selection'
+      ? n * n * 10  // O(n²) algorithms
+      : n * Math.log2(n) * 20; // O(n log n) algorithms
+    return baseTime;
+  };
   
   useEffect(() => {
     if (!isRunning) {
       setProgress(0);
+      setStartTime(null);
       return;
     }
 
-    const updateProgress = () => {
-      const sortedCount = array.filter(el => el.state === "sorted").length;
-      const comparingCount = array.filter(el => el.state === "comparing").length;
-      const currentProgress = ((sortedCount + comparingCount * 0.5) / array.length) * 100;
-      setProgress(Math.min(currentProgress, 100));
-    };
-
-    // Initial update
-    updateProgress();
+    setStartTime(Date.now());
+    const duration = getEstimatedDuration();
     
-    // Set up interval for continuous updates
-    const intervalId = setInterval(updateProgress, 50);
+    const intervalId = setInterval(() => {
+      const elapsed = Date.now() - (startTime || Date.now());
+      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      
+      // Check if sorting is complete (all elements are sorted)
+      const isComplete = array.every(el => el.state === "sorted");
+      
+      if (isComplete) {
+        setProgress(100);
+        clearInterval(intervalId);
+      } else {
+        setProgress(newProgress);
+      }
+    }, 16); // Update at ~60fps for smooth progress
     
     return () => clearInterval(intervalId);
-  }, [isRunning, array]);
+  }, [isRunning, array, startTime]);
 
   return (
     <div className="aspect-video rounded-lg border bg-card p-6 shadow-sm">
