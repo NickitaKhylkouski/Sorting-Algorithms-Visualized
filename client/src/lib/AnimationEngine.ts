@@ -8,7 +8,22 @@ export class AnimationEngine {
   private animations: AnimationFrame[] = [];
   private currentFrame = 0;
   private animationId: number | null = null;
+  private isEducationalMode = false;
   
+  setEducationalMode(mode: boolean) {
+    this.isEducationalMode = mode;
+  }
+
+  step(onFrame: (array: ArrayElement[]) => void, onComplete: () => void) {
+    if (this.currentFrame >= this.animations.length) {
+      onComplete();
+      return;
+    }
+
+    onFrame(this.animations[this.currentFrame].array);
+    this.currentFrame++;
+  }
+
   start(
     array: ArrayElement[],
     algorithm: AlgorithmType,

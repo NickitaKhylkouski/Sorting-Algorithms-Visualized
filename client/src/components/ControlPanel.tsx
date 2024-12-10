@@ -13,7 +13,10 @@ interface ControlPanelProps {
   onSpeedChange: (speed: number) => void;
   onShuffle: () => void;
   onStart: () => void;
+  onStep: () => void;
   isRunning: boolean;
+  isEducationalMode: boolean;
+  onToggleEducationalMode: () => void;
 }
 
 export function ControlPanel({
@@ -80,14 +83,34 @@ export function ControlPanel({
           >
             <Shuffle className="h-4 w-4" />
           </Button>
-          <Button
-            className="flex-1"
-            onClick={onStart}
-            disabled={isRunning}
-          >
-            {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-            {isRunning ? "Running..." : "Start"}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onToggleEducationalMode}
+              disabled={isRunning}
+            >
+              {isEducationalMode ? "🎓" : "▶️"}
+            </Button>
+            {isEducationalMode ? (
+              <Button
+                className="flex-1"
+                onClick={onStep}
+                disabled={isRunning}
+              >
+                Next Step
+              </Button>
+            ) : (
+              <Button
+                className="flex-1"
+                onClick={onStart}
+                disabled={isRunning}
+              >
+                {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                {isRunning ? "Running..." : "Start"}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -24,6 +24,7 @@ export default function SortingVisualizer() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<AlgorithmType>("bubble");
   const [speed, setSpeed] = useState(50);
   const [isRunning, setIsRunning] = useState(false);
+  const [isEducationalMode, setIsEducationalMode] = useState(false);
   const [animationEngine] = useState(() => new AnimationEngine());
 
   const handleStart = useCallback(() => {
@@ -32,6 +33,23 @@ export default function SortingVisualizer() {
       setIsRunning(false);
     });
   }, [array, selectedAlgorithm, speed, animationEngine]);
+
+  const handleStep = useCallback(() => {
+    animationEngine.step(setArray, () => {
+      setIsRunning(false);
+    });
+  }, [animationEngine]);
+
+  const handleToggleEducationalMode = useCallback(() => {
+    const newMode = !isEducationalMode;
+    setIsEducationalMode(newMode);
+    animationEngine.setEducationalMode(newMode);
+    if (newMode) {
+      animationEngine.start(array, selectedAlgorithm, speed, setArray, () => {
+        setIsRunning(false);
+      });
+    }
+  }, [isEducationalMode, array, selectedAlgorithm, speed, animationEngine]);
 
   const handleShuffle = useCallback(() => {
     if (isRunning) return;
@@ -52,7 +70,10 @@ export default function SortingVisualizer() {
             onSpeedChange={setSpeed}
             onShuffle={handleShuffle}
             onStart={handleStart}
+            onStep={handleStep}
             isRunning={isRunning}
+            isEducationalMode={isEducationalMode}
+            onToggleEducationalMode={handleToggleEducationalMode}
           />
           <VisualizationArea array={array} />
         </div>
