@@ -107,24 +107,22 @@ export function ControlPanel({
             <Shuffle className="h-4 w-4" />
           </Button>
 
-          <Button
-            variant="outline"
-            onClick={onToggleEducationalMode}
-            disabled={isRunning}
-            className="flex items-center gap-2"
-          >
-            {isEducationalMode ? (
-              <>
-                <span className="text-lg">🎓</span>
-                <span className="hidden sm:inline">Educational Mode</span>
-              </>
-            ) : (
-              <>
-                <Play className="h-4 w-4" />
-                <span className="hidden sm:inline">Auto Mode</span>
-              </>
-            )}
-          </Button>
+          <div className="flex flex-col gap-2 min-w-[200px]">
+            <label className="text-sm font-medium">Mode</label>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted-foreground">Auto</span>
+              <Slider
+                min={0}
+                max={100}
+                step={100}
+                value={[isEducationalMode ? 100 : 0]}
+                onValueChange={([value]) => onToggleEducationalMode()}
+                disabled={isRunning}
+                className="flex-1"
+              />
+              <span className="text-sm text-muted-foreground">Educational</span>
+            </div>
+          </div>
 
           <div className="flex-1" />
 

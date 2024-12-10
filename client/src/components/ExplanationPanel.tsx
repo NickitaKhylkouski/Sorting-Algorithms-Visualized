@@ -83,6 +83,22 @@ const algorithmInfo = {
 
 export function ExplanationPanel({ algorithm, currentStep }: ExplanationPanelProps) {
   const info = algorithmInfo[algorithm];
+  
+  // Calculate estimated execution time based on array size and complexity
+  const arraySize = 1000; // Example array size
+  const getEstimatedTime = () => {
+    switch (algorithm) {
+      case 'bubble':
+      case 'insertion':
+      case 'selection':
+        return `≈ ${(arraySize * arraySize * 0.000001).toFixed(3)} ms`; // O(n²)
+      case 'merge':
+      case 'quick':
+        return `≈ ${(arraySize * Math.log2(arraySize) * 0.000001).toFixed(3)} ms`; // O(n log n)
+      default:
+        return 'N/A';
+    }
+  };
 
   return (
     <Card className="sticky top-6 p-6">
@@ -93,14 +109,23 @@ export function ExplanationPanel({ algorithm, currentStep }: ExplanationPanelPro
           <p className="text-sm text-muted-foreground">{info.description}</p>
         </div>
         
-        <div>
-          <h3 className="mb-2 font-semibold">Time Complexity</h3>
-          <p className="text-sm text-muted-foreground">{info.complexity.time}</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <h3 className="mb-2 font-semibold">Time Complexity</h3>
+            <p className="text-sm text-muted-foreground">{info.complexity.time}</p>
+          </div>
+          
+          <div>
+            <h3 className="mb-2 font-semibold">Space Complexity</h3>
+            <p className="text-sm text-muted-foreground">{info.complexity.space}</p>
+          </div>
         </div>
-        
+
         <div>
-          <h3 className="mb-2 font-semibold">Space Complexity</h3>
-          <p className="text-sm text-muted-foreground">{info.complexity.space}</p>
+          <h3 className="mb-2 font-semibold">Estimated Time</h3>
+          <p className="text-sm text-muted-foreground">
+            For {arraySize.toLocaleString()} elements: {getEstimatedTime()}
+          </p>
         </div>
         
         <div>
@@ -118,7 +143,7 @@ export function ExplanationPanel({ algorithm, currentStep }: ExplanationPanelPro
             </code>
           </pre>
           {currentStep && (
-            <div className="mt-4">
+            <div className="mt-4 p-3 rounded-md bg-muted/50">
               <h3 className="mb-2 font-semibold">Current Step</h3>
               <p className="text-sm text-muted-foreground">{currentStep.description}</p>
             </div>
