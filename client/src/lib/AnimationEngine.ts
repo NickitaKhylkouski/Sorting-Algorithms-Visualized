@@ -9,6 +9,13 @@ export class AnimationEngine {
   private currentFrame = 0;
   private animationId: number | null = null;
   private isEducationalMode = false;
+
+  getCurrentStep() {
+    if (this.currentFrame < this.animations.length) {
+      return this.animations[this.currentFrame].step;
+    }
+    return undefined;
+  }
   
   setEducationalMode(mode: boolean) {
     this.isEducationalMode = mode;

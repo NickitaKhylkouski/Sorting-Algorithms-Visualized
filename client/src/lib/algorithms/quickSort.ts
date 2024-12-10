@@ -6,14 +6,26 @@ export function quickSort(arr: ArrayElement[]): AnimationFrame[] {
   
   function partition(low: number, high: number): number {
     array[high].state = "pivot";
-    animations.push({ array: array.map(el => ({ ...el })) });
+    animations.push({ 
+      array: array.map(el => ({ ...el })),
+      step: {
+        description: `Setting pivot element ${array[high].value} at position ${high}`,
+        codeLineNumber: 1
+      }
+    });
     
     const pivot = array[high].value;
     let i = low - 1;
     
     for (let j = low; j < high; j++) {
       array[j].state = "comparing";
-      animations.push({ array: array.map(el => ({ ...el })) });
+      animations.push({ 
+        array: array.map(el => ({ ...el })),
+        step: {
+          description: `Comparing element ${array[j].value} with pivot ${pivot}`,
+          codeLineNumber: 2
+        }
+      });
       
       if (array[j].value < pivot) {
         i++;

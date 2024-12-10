@@ -79,7 +79,10 @@ export default function SortingVisualizer() {
           />
           <VisualizationArea array={array} />
         </div>
-        <ExplanationPanel algorithm={selectedAlgorithm} />
+        <ExplanationPanel 
+          algorithm={selectedAlgorithm} 
+          currentStep={animationEngine.getCurrentStep()}
+        />
       </div>
     </div>
   );

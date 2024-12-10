@@ -16,7 +16,13 @@ export function mergeSort(arr: ArrayElement[]): AnimationFrame[] {
     while (i < n1 && j < n2) {
       array[k].state = "comparing";
       if (k > 0) array[k - 1].state = "default";
-      animations.push({ array: array.map(el => ({ ...el })) });
+      animations.push({ 
+        array: array.map(el => ({ ...el })),
+        step: {
+          description: `Comparing elements from left and right subarrays`,
+          codeLineNumber: 3
+        }
+      });
       
       if (L[i].value <= R[j].value) {
         array[k] = { ...L[i], state: "comparing" };
