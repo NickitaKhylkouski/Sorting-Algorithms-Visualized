@@ -28,11 +28,21 @@ export default function SortingVisualizer() {
   const [animationEngine] = useState(() => new AnimationEngine());
 
   const handleStart = useCallback(() => {
-    setIsRunning(true);
-    animationEngine.start(array, selectedAlgorithm, speed, setArray, () => {
+    if (isRunning) {
+      animationEngine.stop();
       setIsRunning(false);
-    });
-  }, [array, selectedAlgorithm, speed, animationEngine]);
+    } else {
+      setIsRunning(true);
+      animationEngine.start(array, selectedAlgorithm, speed, setArray, () => {
+        setIsRunning(false);
+      });
+    }
+  }, [array, selectedAlgorithm, speed, animationEngine, isRunning]);
+
+  const handleStop = useCallback(() => {
+    animationEngine.stop();
+    setIsRunning(false);
+  }, [animationEngine]);
 
   const handleStep = useCallback(() => {
     animationEngine.step(setArray, () => {
@@ -72,6 +82,7 @@ export default function SortingVisualizer() {
             onSpeedChange={setSpeed}
             onShuffle={handleShuffle}
             onStart={handleStart}
+            onStop={handleStop}
             onStep={handleStep}
             isRunning={isRunning}
             isEducationalMode={isEducationalMode}

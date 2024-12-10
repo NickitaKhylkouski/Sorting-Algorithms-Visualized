@@ -56,7 +56,7 @@ export function ExplanationPanel({ algorithm, currentStep }: ExplanationPanelPro
   const info = algorithmInfo[algorithm];
 
   return (
-    <Card className="p-6">
+    <Card className="sticky top-6 p-6">
       <h2 className="mb-4 text-2xl font-bold">{info.name}</h2>
       <div className="space-y-4">
         <div>

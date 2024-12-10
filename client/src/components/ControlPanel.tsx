@@ -14,6 +14,7 @@ interface ControlPanelProps {
   onSpeedChange: (speed: number) => void;
   onShuffle: () => void;
   onStart: () => void;
+  onStop: () => void;
   onStep: () => void;
   isRunning: boolean;
   isEducationalMode: boolean;
@@ -143,9 +144,7 @@ export function ControlPanel({
                   {isRunning && (
                     <Button
                       variant="destructive"
-                      onClick={() => {
-                        onStart(); // This will stop the animation as it toggles the state
-                      }}
+                      onClick={onStop}
                     >
                       Stop
                     </Button>
