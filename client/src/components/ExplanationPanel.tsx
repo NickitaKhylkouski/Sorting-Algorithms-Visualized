@@ -3,6 +3,10 @@ import { Card } from "@/components/ui/card";
 
 interface ExplanationPanelProps {
   algorithm: AlgorithmType;
+  currentStep?: {
+    description: string;
+    codeLineNumber: number;
+  };
 }
 
 const algorithmInfo = {
@@ -73,8 +77,23 @@ export function ExplanationPanel({ algorithm }: ExplanationPanelProps) {
         <div>
           <h3 className="mb-2 font-semibold">Pseudocode</h3>
           <pre className="rounded-md bg-muted p-4 text-sm">
-            <code>{info.pseudocode}</code>
+            <code>
+              {info.pseudocode.split('\n').map((line, index) => (
+                <div
+                  key={index}
+                  className={currentStep?.codeLineNumber === index ? "bg-primary/20" : ""}
+                >
+                  {line}
+                </div>
+              ))}
+            </code>
           </pre>
+          {currentStep && (
+            <div className="mt-4">
+              <h3 className="mb-2 font-semibold">Current Step</h3>
+              <p className="text-sm text-muted-foreground">{currentStep.description}</p>
+            </div>
+          )}
         </div>
       </div>
     </Card>
