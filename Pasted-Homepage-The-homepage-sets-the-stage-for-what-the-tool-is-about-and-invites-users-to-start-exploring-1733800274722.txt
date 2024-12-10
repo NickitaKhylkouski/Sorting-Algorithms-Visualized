@@ -1,0 +1,94 @@
+Homepage
+The homepage sets the stage for what the tool is about and invites users to start exploring sorting algorithms.
+
+Hero Section
+
+A clean, modern design with a headline like: "Learn Sorting Algorithms Visually"
+Subtext: "Experience how different sorting techniques work through interactive animations."
+A “Get Started” button prominently displayed.
+Visual Teaser
+
+A short animated example of a sorting algorithm in action (e.g., bars being rearranged as they’re sorted) looping in the background.
+Navigation Bar
+
+Links: Home, Algorithms, About, Contact, and a Dark/Light Mode Toggle.
+Main Tool Page: Sorting Visualizer
+General Layout
+The page is split into three main sections:
+Control Panel (Top or Left)
+Visualization Area (Center)
+Explanation Panel (Right or Bottom, collapsible)
+1. Control Panel
+Users can configure and control the sorting visualizer with interactive settings.
+
+Algorithm Dropdown:
+
+Dropdown menu to choose an algorithm (Bubble Sort, Quick Sort, Merge Sort, etc.).
+Array Size Slider:
+
+Adjust the size of the array (e.g., 10 bars to 100 bars).
+Speed Control:
+
+A slider to change the animation speed (slow for detailed steps, fast for quicker demonstrations).
+Shuffle Button:
+
+Randomizes the array to be sorted again.
+Start Button:
+
+Begins the sorting process based on the current settings.
+2. Visualization Area
+The centerpiece of the site, where the magic happens.
+
+Sorting Bars:
+
+Vertical bars of varying heights representing the array elements.
+Colors change dynamically during sorting:
+Green: Sorted elements.
+Red: Elements currently being compared.
+Blue: Pivot or key elements (for algorithms like Quick Sort).
+Dynamic Animations:
+
+Step-by-step animations showing swaps, comparisons, and movements.
+Smooth transitions with easing effects for better clarity.
+3. Explanation Panel
+An interactive guide to the algorithm, synced with the visualization.
+
+Step-by-Step Breakdown:
+
+Describes what’s happening at each step in plain English. For example:
+"Comparing element 4 with element 7. Swapping because 4 > 7."
+Algorithm Pseudocode:
+
+A scrollable code block showing the pseudocode for the chosen algorithm.
+Highlights the current line of pseudocode as the algorithm executes.
+Complexity Analysis:
+
+A concise summary of the algorithm’s Time Complexity (best, worst, average) and Space Complexity, with a tooltip explaining what these terms mean.
+Additional Features
+Compare Algorithms Side-by-Side
+
+A split-screen mode to visualize two algorithms running simultaneously on the same array.
+Dark/Light Mode
+
+Toggle between sleek dark mode and a clean light mode for better accessibility.
+Mobile Optimization
+
+A responsive design with touch-friendly controls for mobile users.
+Progress Tracker
+
+A simple progress bar showing how much of the sorting process is complete.
+Educational Mode
+
+Step through the sorting algorithm manually with a “Next Step” button to learn at your own pace.
+Sound Effects (Optional)
+
+Subtle sounds for comparisons and swaps to add an extra layer of feedback.
+Footer Section
+Links to resources like articles on sorting algorithms.
+Acknowledgments for any libraries or frameworks used.
+Social media links and contact information.
+Styling and Feel
+Color Scheme: A clean, professional palette (e.g., blues and grays for light mode, purples and blacks for dark mode).
+Typography: A mix of playful yet professional fonts like Open Sans or Roboto.
+Animations: Smooth, non-distracting animations for hover effects and transitions.
+This design should make the Sorting Algorithm Visualizer both educational and engaging, appealing to students, developers, and anyone curious about algorithms. 
