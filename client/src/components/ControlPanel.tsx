@@ -40,59 +40,62 @@ export function ControlPanel({
 
   return (
     <div className="rounded-lg border bg-card p-6 shadow-sm">
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <div className="flex items-center justify-end lg:col-start-4">
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold">Controls</h3>
           <Button
             variant="ghost"
             size="icon"
             onClick={soundStore.toggleMute}
-            className="mr-2"
           >
             {soundStore.muted ? "🔇" : "🔊"}
           </Button>
         </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Algorithm</label>
-          <Select
-            value={selectedAlgorithm}
-            onValueChange={(value) => onAlgorithmChange(value as AlgorithmType)}
-            disabled={isRunning}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="bubble">Bubble Sort</SelectItem>
-              <SelectItem value="quick">Quick Sort</SelectItem>
-              <SelectItem value="merge">Merge Sort</SelectItem>
-            </SelectContent>
-          </Select>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Algorithm</label>
+            <Select
+              value={selectedAlgorithm}
+              onValueChange={(value) => onAlgorithmChange(value as AlgorithmType)}
+              disabled={isRunning}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="bubble">Bubble Sort</SelectItem>
+                <SelectItem value="quick">Quick Sort</SelectItem>
+                <SelectItem value="merge">Merge Sort</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Array Size</label>
+            <Slider
+              min={10}
+              max={100}
+              step={1}
+              value={[arraySize]}
+              onValueChange={([value]) => onArraySizeChange(value)}
+              disabled={isRunning}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Speed</label>
+            <Slider
+              min={1}
+              max={100}
+              value={[speed]}
+              onValueChange={([value]) => onSpeedChange(value)}
+              disabled={isRunning}
+            />
+          </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Array Size</label>
-          <Slider
-            min={10}
-            max={100}
-            step={1}
-            value={[arraySize]}
-            onValueChange={([value]) => onArraySizeChange(value)}
-            disabled={isRunning}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Speed</label>
-          <Slider
-            min={1}
-            max={100}
-            value={[speed]}
-            onValueChange={([value]) => onSpeedChange(value)}
-            disabled={isRunning}
-          />
-        </div>
-
-        <div className="flex items-end gap-2">
+        <div className="flex flex-wrap items-center gap-3">
           <Button
             variant="outline"
             size="icon"
@@ -101,58 +104,61 @@ export function ControlPanel({
           >
             <Shuffle className="h-4 w-4" />
           </Button>
+
+          <Button
+            variant="outline"
+            onClick={onToggleEducationalMode}
+            disabled={isRunning}
+            className="flex items-center gap-2"
+          >
+            {isEducationalMode ? (
+              <>
+                <span className="text-lg">🎓</span>
+                <span className="hidden sm:inline">Educational Mode</span>
+              </>
+            ) : (
+              <>
+                <Play className="h-4 w-4" />
+                <span className="hidden sm:inline">Auto Mode</span>
+              </>
+            )}
+          </Button>
+
+          <div className="flex-1" />
+
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={onToggleEducationalMode}
-              disabled={isRunning}
-              className="flex items-center gap-2"
-            >
-              {isEducationalMode ? (
-                <>
-                  <span className="text-lg">🎓</span>
-                  <span className="hidden sm:inline">Educational Mode</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-4 w-4" />
-                  <span className="hidden sm:inline">Auto Mode</span>
-                </>
-              )}
-            </Button>
-            <div className="flex flex-1 gap-2">
-              {isEducationalMode ? (
+            {isEducationalMode ? (
+              <Button
+                onClick={onStep}
+                disabled={isRunning}
+                variant="default"
+                className="gap-2"
+              >
+                <span className="text-lg">👉</span>
+                Next Step
+              </Button>
+            ) : (
+              <>
                 <Button
-                  className="flex-1 gap-2"
-                  onClick={onStep}
+                  onClick={onStart}
                   disabled={isRunning}
                   variant="default"
+                  className="gap-2"
                 >
-                  <span className="text-lg">👉</span>
-                  Next Step
+                  {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                  {isRunning ? "Running..." : "Start Sorting"}
                 </Button>
-              ) : (
-                <>
+                {isRunning && (
                   <Button
-                    className="flex-1 gap-2"
-                    onClick={onStart}
-                    disabled={isRunning}
-                    variant="default"
+                    variant="destructive"
+                    onClick={onStop}
+                    className="whitespace-nowrap"
                   >
-                    {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                    {isRunning ? "Running..." : "Start Sorting"}
+                    Stop Sorting
                   </Button>
-                  {isRunning && (
-                    <Button
-                      variant="destructive"
-                      onClick={onStop}
-                    >
-                      Stop
-                    </Button>
-                  )}
-                </>
-              )}
-            </div>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
