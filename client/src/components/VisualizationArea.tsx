@@ -13,47 +13,49 @@ export function VisualizationArea({ array, algorithm, isRunning }: Visualization
   const [progress, setProgress] = useState(0);
   const [startTime, setStartTime] = useState<number | null>(null);
 
-  // Calculate total estimated time based on array size and algorithm
-  const getTotalEstimatedTime = () => {
+  // Calculate total operations needed for the algorithm
+  const getTotalOperations = () => {
     const n = array.length;
     switch (algorithm) {
       case 'bubble':
       case 'insertion':
       case 'selection':
-        return n * n * 0.001; // O(n²)
+        return (n * (n - 1)) / 2; // Number of comparisons for O(n²) algorithms
       case 'merge':
       case 'quick':
-        return n * Math.log2(n) * 0.001; // O(n log n)
+        return n * Math.ceil(Math.log2(n)); // Number of comparisons for O(n log n) algorithms
       default:
-        return 1000;
+        return n * n;
     }
   };
 
   useEffect(() => {
     if (isRunning) {
-      setStartTime(Date.now());
-      const totalTime = getTotalEstimatedTime();
-      let animationFrame: number;
-
-      const updateProgress = () => {
-        if (!startTime) return;
+      const totalOps = getTotalOperations();
+      let completedOps = 0;
+      let lastOpCount = 0;
+      
+      const intervalId = setInterval(() => {
+        // Count operations based on state changes
+        const currentOps = array.reduce((count, el) => {
+          if (el.state === "comparing" || el.state === "pivot") {
+            return count + 1;
+          }
+          return count;
+        }, 0);
         
-        const elapsed = Date.now() - startTime;
-        const newProgress = Math.min((elapsed / totalTime) * 100, 100);
-        setProgress(newProgress);
-
-        if (newProgress < 100 && isRunning) {
-          animationFrame = requestAnimationFrame(updateProgress);
+        if (currentOps > lastOpCount) {
+          completedOps = Math.min(completedOps + (currentOps - lastOpCount), totalOps);
+          lastOpCount = currentOps;
+          setProgress((completedOps / totalOps) * 100);
         }
-      };
+      }, 16); // Update at ~60fps
 
-      animationFrame = requestAnimationFrame(updateProgress);
-      return () => cancelAnimationFrame(animationFrame);
+      return () => clearInterval(intervalId);
     } else {
-      setStartTime(null);
       setProgress(0);
     }
-  }, [isRunning, algorithm]);
+  }, [isRunning, algorithm, array]);
 
   return (
     <div className="aspect-video rounded-lg border bg-card p-6 shadow-sm">
