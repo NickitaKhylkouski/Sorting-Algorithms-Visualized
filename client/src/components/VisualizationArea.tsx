@@ -16,42 +16,44 @@ export function VisualizationArea({ array, algorithm, isRunning }: Visualization
     let intervalId: NodeJS.Timeout;
     
     if (isRunning) {
-      // Reset progress when starting
       setProgress(0);
       
-      // Update progress every 100ms
-      intervalId = setInterval(() => {
-        setProgress((prevProgress) => {
-          // Increment based on algorithm type
-          const increment = algorithm === 'bubble' || algorithm === 'insertion' || algorithm === 'selection'
-            ? 2  // Slower for O(n²) algorithms
-            : 4; // Faster for O(n log n) algorithms
-            
-          const nextProgress = Math.min(prevProgress + increment, 100);
-          
-          // Clear interval when we reach 100%
-          if (nextProgress >= 100) {
-            clearInterval(intervalId);
-          }
-          
-          return nextProgress;
-        });
-      }, 100);
+      // Track sorted elements to determine when sorting is complete
+      const checkSortingComplete = () => {
+        return array.every(el => el.state === "sorted");
+      };
       
-      // Cleanup function
-      return () => {
-        if (intervalId) {
+      intervalId = setInterval(() => {
+        // Check if sorting is complete
+        if (checkSortingComplete()) {
+          setProgress(100);
           clearInterval(intervalId);
+          return;
         }
+        
+        setProgress(prev => {
+          // Calculate progress based on how many elements are sorted
+          const sortedCount = array.filter(el => el.state === "sorted").length;
+          const targetProgress = (sortedCount / array.length) * 100;
+          
+          // Move progress smoothly towards target
+          if (targetProgress > prev) {
+            return Math.min(prev + 1, targetProgress);
+          }
+          return prev;
+        });
+      }, 16); // Update at ~60fps for smooth progress
+      
+      return () => {
+        clearInterval(intervalId);
       };
     } else {
-      // Reset progress when stopping
       setProgress(0);
       if (intervalId) {
         clearInterval(intervalId);
       }
     }
-  }, [isRunning, algorithm]); // Only re-run effect when these dependencies change
+  }, [isRunning, array]); // Add array as dependency to track sorting progress
 
   return (
     <div className="aspect-video rounded-lg border bg-card p-6 shadow-sm">
