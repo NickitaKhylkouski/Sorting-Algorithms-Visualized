@@ -11,6 +11,19 @@ export function VisualizationArea({ array }: VisualizationAreaProps) {
   
   return (
     <div className="aspect-video rounded-lg border bg-card p-6 shadow-sm">
+      <div className="mb-4 flex items-center gap-2">
+        <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+          <div 
+            className="h-full bg-primary transition-all duration-200" 
+            style={{ 
+              width: `${(array.filter(el => el.state === "sorted").length / array.length) * 100}%` 
+            }} 
+          />
+        </div>
+        <span className="text-sm text-muted-foreground">
+          {Math.round((array.filter(el => el.state === "sorted").length / array.length) * 100)}%
+        </span>
+      </div>
       <svg
         width="100%"
         height="100%"

@@ -7,4 +7,8 @@ export interface ArrayElement {
 
 export interface AnimationFrame {
   array: ArrayElement[];
+  step: {
+    description: string;
+    codeLineNumber: number;
+  };
 }
