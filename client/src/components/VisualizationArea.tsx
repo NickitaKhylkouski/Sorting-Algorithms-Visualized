@@ -11,47 +11,47 @@ interface VisualizationAreaProps {
 export function VisualizationArea({ array, algorithm, isRunning }: VisualizationAreaProps) {
   const maxValue = useMemo(() => Math.max(...array.map(el => el.value)), [array]);
   const [progress, setProgress] = useState(0);
-  const [startTime, setStartTime] = useState<number | null>(null);
-
-  // Get estimated total time based on algorithm and array size
-  const getEstimatedTime = () => {
-    const n = array.length;
-    switch (algorithm) {
-      case 'bubble':
-      case 'insertion':
-      case 'selection':
-        return 2000; // 2 seconds for O(n²) algorithms
-      case 'merge':
-      case 'quick':
-        return 1000; // 1 second for O(n log n) algorithms
-      default:
-        return 1500;
-    }
-  };
-
+  
   useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    
     if (isRunning) {
-      setStartTime(Date.now());
-      const totalTime = getEstimatedTime();
+      // Reset progress when starting
+      setProgress(0);
       
-      const intervalId = setInterval(() => {
-        const elapsed = Date.now() - (startTime || Date.now());
-        const newProgress = Math.min((elapsed / totalTime) * 100, 100);
-        setProgress(newProgress);
-        
-        if (newProgress >= 100) {
+      // Update progress every 100ms
+      intervalId = setInterval(() => {
+        setProgress((prevProgress) => {
+          // Increment based on algorithm type
+          const increment = algorithm === 'bubble' || algorithm === 'insertion' || algorithm === 'selection'
+            ? 2  // Slower for O(n²) algorithms
+            : 4; // Faster for O(n log n) algorithms
+            
+          const nextProgress = Math.min(prevProgress + increment, 100);
+          
+          // Clear interval when we reach 100%
+          if (nextProgress >= 100) {
+            clearInterval(intervalId);
+          }
+          
+          return nextProgress;
+        });
+      }, 100);
+      
+      // Cleanup function
+      return () => {
+        if (intervalId) {
           clearInterval(intervalId);
         }
-      }, 16); // Update at ~60fps
-
-      return () => {
-        clearInterval(intervalId);
       };
     } else {
-      setStartTime(null);
+      // Reset progress when stopping
       setProgress(0);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     }
-  }, [isRunning, algorithm]);
+  }, [isRunning, algorithm]); // Only re-run effect when these dependencies change
 
   return (
     <div className="aspect-video rounded-lg border bg-card p-6 shadow-sm">
