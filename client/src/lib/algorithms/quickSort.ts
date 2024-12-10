@@ -30,7 +30,13 @@ export function quickSort(arr: ArrayElement[]): AnimationFrame[] {
       if (array[j].value < pivot) {
         i++;
         [array[i], array[j]] = [array[j], array[i]];
-        animations.push({ array: array.map(el => ({ ...el })) });
+        animations.push({ 
+          array: array.map(el => ({ ...el })),
+          step: {
+            description: `Swapping elements ${array[i].value} and ${array[j].value}`,
+            codeLineNumber: 2
+          }
+        });
       }
       
       array[j].state = "default";
@@ -38,7 +44,13 @@ export function quickSort(arr: ArrayElement[]): AnimationFrame[] {
     
     [array[i + 1], array[high]] = [array[high], array[i + 1]];
     array[i + 1].state = "sorted";
-    animations.push({ array: array.map(el => ({ ...el })) });
+    animations.push({ 
+      array: array.map(el => ({ ...el })),
+      step: {
+        description: `Placing pivot ${array[i + 1].value} in its final position`,
+        codeLineNumber: 3
+      }
+    });
     
     return i + 1;
   }
@@ -55,7 +67,13 @@ export function quickSort(arr: ArrayElement[]): AnimationFrame[] {
   
   // Mark all elements as sorted at the end
   array.forEach(el => el.state = "sorted");
-  animations.push({ array: array.map(el => ({ ...el })) });
+  animations.push({ 
+    array: array.map(el => ({ ...el })),
+    step: {
+      description: "Sorting complete",
+      codeLineNumber: 4
+    }
+  });
   
   return animations;
 }

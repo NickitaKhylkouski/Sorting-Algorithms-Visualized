@@ -32,19 +32,37 @@ export function mergeSort(arr: ArrayElement[]): AnimationFrame[] {
         j++;
       }
       k++;
-      animations.push({ array: array.map(el => ({ ...el })) });
+      animations.push({ 
+        array: array.map(el => ({ ...el })),
+        step: {
+          description: "Placing smaller element in sorted position",
+          codeLineNumber: 3
+        }
+      });
     }
     
     while (i < n1) {
       array[k] = { ...L[i], state: "comparing" };
-      animations.push({ array: array.map(el => ({ ...el })) });
+      animations.push({ 
+        array: array.map(el => ({ ...el })),
+        step: {
+          description: "Copying remaining elements from left subarray",
+          codeLineNumber: 4
+        }
+      });
       i++;
       k++;
     }
     
     while (j < n2) {
       array[k] = { ...R[j], state: "comparing" };
-      animations.push({ array: array.map(el => ({ ...el })) });
+      animations.push({ 
+        array: array.map(el => ({ ...el })),
+        step: {
+          description: "Copying remaining elements from right subarray",
+          codeLineNumber: 4
+        }
+      });
       j++;
       k++;
     }
@@ -53,7 +71,13 @@ export function mergeSort(arr: ArrayElement[]): AnimationFrame[] {
     for (let m = left; m <= right; m++) {
       array[m].state = "sorted";
     }
-    animations.push({ array: array.map(el => ({ ...el })) });
+    animations.push({ 
+      array: array.map(el => ({ ...el })),
+      step: {
+        description: "Merging complete for current section",
+        codeLineNumber: 5
+      }
+    });
   }
   
   function mergeSortHelper(left: number, right: number) {
@@ -69,7 +93,13 @@ export function mergeSort(arr: ArrayElement[]): AnimationFrame[] {
   
   // Mark all elements as sorted at the end
   array.forEach(el => el.state = "sorted");
-  animations.push({ array: array.map(el => ({ ...el })) });
+  animations.push({ 
+    array: array.map(el => ({ ...el })),
+    step: {
+      description: "Sorting complete",
+      codeLineNumber: 5
+    }
+  });
   
   return animations;
 }

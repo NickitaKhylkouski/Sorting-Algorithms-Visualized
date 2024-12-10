@@ -52,7 +52,7 @@ const algorithmInfo = {
   },
 };
 
-export function ExplanationPanel({ algorithm }: ExplanationPanelProps) {
+export function ExplanationPanel({ algorithm, currentStep }: ExplanationPanelProps) {
   const info = algorithmInfo[algorithm];
 
   return (
