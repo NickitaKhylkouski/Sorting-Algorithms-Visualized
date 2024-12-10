@@ -16,12 +16,13 @@ export function VisualizationArea({ array }: VisualizationAreaProps) {
           <div 
             className="h-full bg-primary transition-all duration-200" 
             style={{ 
-              width: `${(array.filter(el => el.state === "sorted").length / array.length) * 100}%` 
+              width: `${(array.filter(el => el.state === "comparing").length / array.length) * 100}%` 
             }} 
           />
         </div>
         <span className="text-sm text-muted-foreground">
-          {Math.round((array.filter(el => el.state === "sorted").length / array.length) * 100)}%
+          {/* Show progress based on operations performed */}
+          {Math.round((array.filter(el => el.state === "comparing" || el.state === "pivot").length / array.length) * 100)}%
         </span>
       </div>
       <svg
