@@ -52,7 +52,13 @@ export function bubbleSort(arr: ArrayElement[]): AnimationFrame[] {
   
   // Mark the first element as sorted
   array[0].state = "sorted";
-  animations.push({ array: array.map(el => ({ ...el })) });
+  animations.push({ 
+    array: array.map(el => ({ ...el })),
+    step: {
+      description: "Sorting complete",
+      codeLineNumber: 4
+    }
+  });
   
   return animations;
 }
