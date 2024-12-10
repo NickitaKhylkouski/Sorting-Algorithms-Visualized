@@ -18,14 +18,17 @@ export function bubbleSort(arr: ArrayElement[]): AnimationFrame[] {
         animations.push({ array: array.map(el => ({ ...el })) });
       }
       
-      // Reset state of compared elements
-      array[j].state = "default";
-      array[j + 1].state = "default";
-      
-      // Mark the last element as sorted
+      // After comparison, mark elements as sorted if they are in final position
       if (j === n - i - 2) {
         array[j + 1].state = "sorted";
+      } else {
+        // Reset only if not being marked as sorted
+        array[j].state = "default";
+        array[j + 1].state = "default";
       }
+
+      // Push the current state to animations
+      animations.push({ array: array.map(el => ({ ...el })) });
     }
   }
   

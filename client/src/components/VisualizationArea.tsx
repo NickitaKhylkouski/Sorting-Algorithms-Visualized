@@ -22,20 +22,21 @@ export function VisualizationArea({ array }: VisualizationAreaProps) {
           const barHeight = (element.value / maxValue) * 90;
           const x = index * barWidth;
           
-          let className = "transition-all duration-200 ";
+          let fillColor;
           switch (element.state) {
             case "comparing":
-              className += "fill-destructive";
+              fillColor = "fill-destructive";
               break;
             case "sorted":
-              className += "fill-success";
+              fillColor = "fill-green-500";
               break;
             case "pivot":
-              className += "fill-blue-500";
+              fillColor = "fill-blue-500";
               break;
             default:
-              className += "fill-primary";
+              fillColor = "fill-primary";
           }
+          const className = `transition-all duration-200 ${fillColor}`;
           
           return (
             <rect
