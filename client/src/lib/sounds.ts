@@ -7,48 +7,40 @@ interface SoundState {
   playSwap: () => void;
 }
 
+// Shared AudioContext
+let audioContext: AudioContext | null = null;
+
+const getAudioContext = () => {
+  if (!audioContext) {
+    audioContext = new AudioContext();
+  }
+  return audioContext;
+};
+
 // Create simple oscillator-based sounds
-const createCompareSound = () => {
-  const audioContext = new AudioContext();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.type = 'sine';
-  oscillator.frequency.value = 440; // A4 note
-  gainNode.gain.value = 0;
-  
-  oscillator.start();
-  
+const createSound = (frequency: number) => {
   return () => {
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+    const ctx = getAudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.01);
+    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+    
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.1);
   };
 };
 
-const createSwapSound = () => {
-  const audioContext = new AudioContext();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.type = 'sine';
-  oscillator.frequency.value = 880; // A5 note
-  gainNode.gain.value = 0;
-  
-  oscillator.start();
-  
-  return () => {
-    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-    oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-  };
-};
+const createCompareSound = () => createSound(440); // A4 note
+const createSwapSound = () => createSound(880); // A5 note
 
 let compareSound: (() => void) | null = null;
 let swapSound: (() => void) | null = null;
