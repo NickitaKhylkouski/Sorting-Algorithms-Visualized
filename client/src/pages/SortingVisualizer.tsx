@@ -44,7 +44,9 @@ export default function SortingVisualizer() {
     const newMode = !isEducationalMode;
     setIsEducationalMode(newMode);
     animationEngine.setEducationalMode(newMode);
+    animationEngine.stop(); // Stop any running animation
     if (newMode) {
+      // Reset and show initial state
       animationEngine.start(array, selectedAlgorithm, speed, setArray, () => {
         setIsRunning(false);
       });

@@ -45,6 +45,12 @@ export class AnimationEngine {
         this.animations = mergeSort(array);
         break;
     }
+
+    if (this.isEducationalMode) {
+      // In educational mode, just show the first frame
+      onFrame(this.animations[0].array);
+      return;
+    }
     
     const animate = () => {
       if (this.currentFrame >= this.animations.length) {
