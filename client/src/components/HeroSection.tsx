@@ -22,7 +22,13 @@ export function HeroSection() {
             Understand the mechanics behind popular algorithms with step-by-step visualization.
           </p>
           <Link href="/visualizer">
-            <Button size="lg" className="rounded-full font-semibold">
+            <Button 
+              size="lg" 
+              className="rounded-full font-semibold bg-primary hover:bg-primary/90 
+                transform transition-all duration-300 ease-out
+                hover:scale-105 hover:shadow-lg active:scale-95
+                hover:bg-gradient-to-r hover:from-primary hover:to-primary/80"
+            >
               Get Started
             </Button>
           </Link>
