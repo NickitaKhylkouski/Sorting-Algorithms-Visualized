@@ -5,7 +5,7 @@ import { ExplanationPanel } from "../components/ExplanationPanel";
 import { useState, useCallback } from "react";
 import { AnimationEngine } from "../lib/AnimationEngine";
 
-export type AlgorithmType = "bubble" | "quick" | "merge";
+export type AlgorithmType = "bubble" | "quick" | "merge" | "insertion" | "selection";
 
 import { type ArrayElement } from "../lib/types";
 

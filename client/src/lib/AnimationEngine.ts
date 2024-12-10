@@ -1,6 +1,8 @@
 import { bubbleSort } from "./algorithms/bubbleSort";
 import { quickSort } from "./algorithms/quickSort";
 import { mergeSort } from "./algorithms/mergeSort";
+import { insertionSort } from "./algorithms/insertionSort";
+import { selectionSort } from "./algorithms/selectionSort";
 import type { AlgorithmType } from "../pages/SortingVisualizer";
 import type { AnimationFrame, ArrayElement } from "./types";
 import { useSoundStore } from "./sounds";
@@ -69,6 +71,12 @@ export class AnimationEngine {
         break;
       case "merge":
         this.animations = mergeSort(array);
+        break;
+      case "insertion":
+        this.animations = insertionSort(array);
+        break;
+      case "selection":
+        this.animations = selectionSort(array);
         break;
     }
 

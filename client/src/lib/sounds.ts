@@ -19,7 +19,7 @@ const getAudioContext = () => {
 
 // Create simple oscillator-based sounds
 let lastSoundTime = 0;
-const MIN_SOUND_INTERVAL = 50; // Minimum 50ms between sounds
+const MIN_SOUND_INTERVAL = 100; // Minimum 100ms between sounds to prevent sound overlap
 
 const createSound = (frequency: number) => {
   return () => {

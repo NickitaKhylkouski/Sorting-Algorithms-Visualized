@@ -67,6 +67,8 @@ export function ControlPanel({
                 <SelectItem value="bubble">Bubble Sort</SelectItem>
                 <SelectItem value="quick">Quick Sort</SelectItem>
                 <SelectItem value="merge">Merge Sort</SelectItem>
+                <SelectItem value="insertion">Insertion Sort</SelectItem>
+                <SelectItem value="selection">Selection Sort</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -139,24 +141,26 @@ export function ControlPanel({
               </Button>
             ) : (
               <>
-                <Button
-                  onClick={onStart}
-                  disabled={isRunning}
-                  variant="default"
-                  className="gap-2"
-                >
-                  {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                  {isRunning ? "Running..." : "Start Sorting"}
-                </Button>
-                {isRunning && (
+                <div className="flex flex-wrap gap-2">
                   <Button
-                    variant="destructive"
-                    onClick={onStop}
-                    className="whitespace-nowrap"
+                    onClick={onStart}
+                    disabled={isRunning}
+                    variant="default"
+                    className="gap-2"
                   >
-                    Stop Sorting
+                    {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                    {isRunning ? "Running..." : "Start Sorting"}
                   </Button>
-                )}
+                  {isRunning && (
+                    <Button
+                      variant="destructive"
+                      onClick={onStop}
+                      className="whitespace-nowrap"
+                    >
+                      Stop Sorting
+                    </Button>
+                  )}
+                </div>
               </>
             )}
           </div>
