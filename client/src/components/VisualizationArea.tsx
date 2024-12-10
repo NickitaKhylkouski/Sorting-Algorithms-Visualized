@@ -13,47 +13,26 @@ export function VisualizationArea({ array, algorithm, isRunning }: Visualization
   const [progress, setProgress] = useState(0);
   
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-    
-    if (isRunning) {
+    if (!isRunning) {
       setProgress(0);
-      
-      // Track sorted elements to determine when sorting is complete
-      const checkSortingComplete = () => {
-        return array.every(el => el.state === "sorted");
-      };
-      
-      intervalId = setInterval(() => {
-        // Check if sorting is complete
-        if (checkSortingComplete()) {
-          setProgress(100);
-          clearInterval(intervalId);
-          return;
-        }
-        
-        setProgress(prev => {
-          // Calculate progress based on how many elements are sorted
-          const sortedCount = array.filter(el => el.state === "sorted").length;
-          const targetProgress = (sortedCount / array.length) * 100;
-          
-          // Move progress smoothly towards target
-          if (targetProgress > prev) {
-            return Math.min(prev + 1, targetProgress);
-          }
-          return prev;
-        });
-      }, 16); // Update at ~60fps for smooth progress
-      
-      return () => {
-        clearInterval(intervalId);
-      };
-    } else {
-      setProgress(0);
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      return;
     }
-  }, [isRunning, array]); // Add array as dependency to track sorting progress
+
+    const updateProgress = () => {
+      const sortedCount = array.filter(el => el.state === "sorted").length;
+      const comparingCount = array.filter(el => el.state === "comparing").length;
+      const currentProgress = ((sortedCount + comparingCount * 0.5) / array.length) * 100;
+      setProgress(Math.min(currentProgress, 100));
+    };
+
+    // Initial update
+    updateProgress();
+    
+    // Set up interval for continuous updates
+    const intervalId = setInterval(updateProgress, 50);
+    
+    return () => clearInterval(intervalId);
+  }, [isRunning, array]);
 
   return (
     <div className="aspect-video rounded-lg border bg-card p-6 shadow-sm">
