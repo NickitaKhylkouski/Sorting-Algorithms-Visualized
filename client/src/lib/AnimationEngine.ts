@@ -77,7 +77,17 @@ export class AnimationEngine {
         return;
       }
       
-      onFrame(this.animations[this.currentFrame].array);
+      const frame = this.animations[this.currentFrame];
+      const soundStore = useSoundStore.getState();
+      
+      // Play appropriate sound based on the operation
+      if (frame.step?.description.includes("Comparing")) {
+        soundStore.playCompare();
+      } else if (frame.step?.description.includes("Swapping")) {
+        soundStore.playSwap();
+      }
+
+      onFrame(frame.array);
       this.currentFrame++;
       
       this.animationId = window.setTimeout(
