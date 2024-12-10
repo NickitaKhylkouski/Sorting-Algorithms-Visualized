@@ -36,7 +36,7 @@ export function HeroVisualizer() {
         setArray(animations[prev].array);
         return prev + 1;
       });
-    }, 300); // Slowed down for better visibility
+    }, 500); // Slower animation for better visibility in the background
 
     return () => {
       clearInterval(intervalId);
@@ -47,13 +47,13 @@ export function HeroVisualizer() {
   const maxValue = useMemo(() => Math.max(...array.map(el => el.value)), [array]);
   
   return (
-    <div className="h-48 w-full">
+    <div className="h-full w-full">
       <svg
         width="100%"
         height="100%"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
-        className="opacity-75"
+        className="w-full h-full opacity-30"
       >
         {array.map((element, index) => {
           const barWidth = 100 / array.length;
