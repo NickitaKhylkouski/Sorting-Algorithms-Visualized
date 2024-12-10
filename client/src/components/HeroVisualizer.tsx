@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { type ArrayElement } from "../lib/types";
 import { bubbleSort } from "../lib/algorithms/bubbleSort";
 
@@ -18,26 +18,31 @@ export function HeroVisualizer() {
   
   const animations = useMemo(() => {
     return bubbleSort(array);
-  }, []);
+  }, [array]);
   
+  const resetAnimation = useCallback(() => {
+    setArray(generateRandomArray(10));
+    setCurrentFrame(0);
+  }, []);
+
   useEffect(() => {
+    let timeoutId: number;
     const intervalId = setInterval(() => {
       setCurrentFrame((prev) => {
         if (prev >= animations.length - 1) {
-          // Reset animation when it completes
-          setTimeout(() => {
-            setArray(generateRandomArray(10));
-            setCurrentFrame(0);
-          }, 1000);
+          timeoutId = window.setTimeout(resetAnimation, 1000);
           return prev;
         }
         setArray(animations[prev].array);
         return prev + 1;
       });
-    }, 200);
+    }, 300); // Slowed down for better visibility
 
-    return () => clearInterval(intervalId);
-  }, [animations]);
+    return () => {
+      clearInterval(intervalId);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [animations, resetAnimation]);
 
   const maxValue = useMemo(() => Math.max(...array.map(el => el.value)), [array]);
   
