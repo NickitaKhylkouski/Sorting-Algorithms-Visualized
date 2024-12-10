@@ -102,28 +102,41 @@ export function ControlPanel({
           <div className="flex gap-2">
             <Button
               variant="outline"
-              size="icon"
               onClick={onToggleEducationalMode}
               disabled={isRunning}
+              className="flex items-center gap-2"
             >
-              {isEducationalMode ? "🎓" : "▶️"}
+              {isEducationalMode ? (
+                <>
+                  <span className="text-lg">🎓</span>
+                  <span className="hidden sm:inline">Educational Mode</span>
+                </>
+              ) : (
+                <>
+                  <Play className="h-4 w-4" />
+                  <span className="hidden sm:inline">Auto Mode</span>
+                </>
+              )}
             </Button>
             {isEducationalMode ? (
               <Button
-                className="flex-1"
+                className="flex-1 gap-2"
                 onClick={onStep}
                 disabled={isRunning}
+                variant="default"
               >
+                <span className="text-lg">👉</span>
                 Next Step
               </Button>
             ) : (
               <Button
-                className="flex-1"
+                className="flex-1 gap-2"
                 onClick={onStart}
                 disabled={isRunning}
+                variant="default"
               >
                 {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                {isRunning ? "Running..." : "Start"}
+                {isRunning ? "Running..." : "Start Sorting"}
               </Button>
             )}
           </div>

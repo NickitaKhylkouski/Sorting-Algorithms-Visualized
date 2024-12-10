@@ -38,7 +38,15 @@ export class AnimationEngine {
       soundStore.playSwap();
     }
 
-    onFrame(frame.array);
+    // In educational mode, we ensure elements being manipulated are highlighted
+    const enhancedArray = frame.array.map(el => ({
+      ...el,
+      state: el.state === "comparing" ? "comparing" : 
+             el.state === "pivot" ? "pivot" :
+             el.state === "sorted" ? "sorted" : "default"
+    }));
+
+    onFrame(enhancedArray);
     this.currentFrame++;
   }
 
