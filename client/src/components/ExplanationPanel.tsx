@@ -50,6 +50,35 @@ const algorithmInfo = {
   right = mergeSort(arr[mid...end])
   return merge(left, right)`,
   },
+  insertion: {
+    name: "Insertion Sort",
+    description: "Builds the final sorted array one item at a time by repeatedly inserting a new element into a sorted portion of the array.",
+    complexity: {
+      time: "O(n²)",
+      space: "O(1)",
+    },
+    pseudocode: `for i = 1 to n-1
+  key = arr[i]
+  j = i - 1
+  while j >= 0 and arr[j] > key
+    arr[j+1] = arr[j]
+    j = j - 1
+  arr[j+1] = key`,
+  },
+  selection: {
+    name: "Selection Sort",
+    description: "Divides the input list into a sorted and an unsorted region, and repeatedly selects the smallest element from the unsorted region to add to the sorted region.",
+    complexity: {
+      time: "O(n²)",
+      space: "O(1)",
+    },
+    pseudocode: `for i = 0 to n-1
+  min_idx = i
+  for j = i+1 to n
+    if arr[j] < arr[min_idx]
+      min_idx = j
+  swap arr[i] with arr[min_idx]`,
+  },
 };
 
 export function ExplanationPanel({ algorithm, currentStep }: ExplanationPanelProps) {
@@ -78,7 +107,7 @@ export function ExplanationPanel({ algorithm, currentStep }: ExplanationPanelPro
           <h3 className="mb-2 font-semibold">Pseudocode</h3>
           <pre className="rounded-md bg-muted p-4 text-sm">
             <code>
-              {info.pseudocode.split('\n').map((line, index) => (
+              {info.pseudocode.split('\n').map((line: string, index: number) => (
                 <div
                   key={index}
                   className={currentStep?.codeLineNumber === index ? "bg-primary/20" : ""}
