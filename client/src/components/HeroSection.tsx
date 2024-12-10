@@ -7,6 +7,7 @@ export function HeroSection() {
   return (
     <div className="relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background/20" />
         <HeroVisualizer />
       </div>
       <div className="container mx-auto px-4 py-24">

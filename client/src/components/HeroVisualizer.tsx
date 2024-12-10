@@ -13,12 +13,11 @@ function generateRandomArray(size: number): ArrayElement[] {
 }
 
 export function HeroVisualizer() {
-  const [array, setArray] = useState<ArrayElement[]>([]);
+  const [array, setArray] = useState<ArrayElement[]>(() => generateRandomArray(10));
   const [currentFrame, setCurrentFrame] = useState(0);
   
   const animations = useMemo(() => {
-    const initialArray = generateRandomArray(10);
-    return bubbleSort(initialArray);
+    return bubbleSort(array);
   }, []);
   
   useEffect(() => {
@@ -49,7 +48,7 @@ export function HeroVisualizer() {
         height="100%"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
-        className="opacity-50"
+        className="opacity-75"
       >
         {array.map((element, index) => {
           const barWidth = 100 / array.length;
