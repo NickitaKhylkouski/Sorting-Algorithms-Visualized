@@ -88,7 +88,11 @@ export default function SortingVisualizer() {
             isEducationalMode={isEducationalMode}
             onToggleEducationalMode={handleToggleEducationalMode}
           />
-          <VisualizationArea array={array} />
+          <VisualizationArea 
+            array={array}
+            algorithm={selectedAlgorithm}
+            isRunning={isRunning}
+          />
         </div>
         <ExplanationPanel 
           algorithm={selectedAlgorithm} 
