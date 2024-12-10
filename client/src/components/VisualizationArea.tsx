@@ -1,11 +1,13 @@
 import { useMemo } from "react";
 
+import { type ArrayElement } from "../lib/types";
+
 interface VisualizationAreaProps {
-  array: number[];
+  array: ArrayElement[];
 }
 
 export function VisualizationArea({ array }: VisualizationAreaProps) {
-  const maxValue = useMemo(() => Math.max(...array), [array]);
+  const maxValue = useMemo(() => Math.max(...array.map(el => el.value)), [array]);
   
   return (
     <div className="aspect-video rounded-lg border bg-card p-6 shadow-sm">
@@ -15,10 +17,25 @@ export function VisualizationArea({ array }: VisualizationAreaProps) {
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
       >
-        {array.map((value, index) => {
+        {array.map((element, index) => {
           const barWidth = 100 / array.length;
-          const barHeight = (value / maxValue) * 90;
+          const barHeight = (element.value / maxValue) * 90;
           const x = index * barWidth;
+          
+          let className = "transition-all duration-200 ";
+          switch (element.state) {
+            case "comparing":
+              className += "fill-destructive";
+              break;
+            case "sorted":
+              className += "fill-success";
+              break;
+            case "pivot":
+              className += "fill-blue-500";
+              break;
+            default:
+              className += "fill-primary";
+          }
           
           return (
             <rect
@@ -27,7 +44,7 @@ export function VisualizationArea({ array }: VisualizationAreaProps) {
               y={`${100 - barHeight}%`}
               width={`${barWidth * 0.9}%`}
               height={`${barHeight}%`}
-              className="fill-primary transition-all duration-200"
+              className={className}
             />
           );
         })}
