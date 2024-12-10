@@ -3,6 +3,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Shuffle, Play, Pause } from "lucide-react";
 import type { AlgorithmType } from "../pages/SortingVisualizer";
+import { useSoundStore } from "../lib/sounds";
 
 interface ControlPanelProps {
   selectedAlgorithm: AlgorithmType;
