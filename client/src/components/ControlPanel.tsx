@@ -30,6 +30,7 @@ export function ControlPanel({
   onSpeedChange,
   onShuffle,
   onStart,
+  onStop,
   onStep,
   isRunning,
   isEducationalMode,
