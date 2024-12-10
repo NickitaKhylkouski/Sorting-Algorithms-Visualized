@@ -28,7 +28,10 @@ export function ControlPanel({
   onSpeedChange,
   onShuffle,
   onStart,
+  onStep,
   isRunning,
+  isEducationalMode,
+  onToggleEducationalMode,
 }: ControlPanelProps) {
   return (
     <div className="rounded-lg border bg-card p-6 shadow-sm">
