@@ -18,8 +18,17 @@ const getAudioContext = () => {
 };
 
 // Create simple oscillator-based sounds
+let lastSoundTime = 0;
+const MIN_SOUND_INTERVAL = 50; // Minimum 50ms between sounds
+
 const createSound = (frequency: number) => {
   return () => {
+    const now = Date.now();
+    if (now - lastSoundTime < MIN_SOUND_INTERVAL) {
+      return;
+    }
+    lastSoundTime = now;
+
     const ctx = getAudioContext();
     const oscillator = ctx.createOscillator();
     const gainNode = ctx.createGain();

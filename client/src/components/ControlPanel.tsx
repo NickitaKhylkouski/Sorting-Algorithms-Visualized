@@ -118,27 +118,41 @@ export function ControlPanel({
                 </>
               )}
             </Button>
-            {isEducationalMode ? (
-              <Button
-                className="flex-1 gap-2"
-                onClick={onStep}
-                disabled={isRunning}
-                variant="default"
-              >
-                <span className="text-lg">👉</span>
-                Next Step
-              </Button>
-            ) : (
-              <Button
-                className="flex-1 gap-2"
-                onClick={onStart}
-                disabled={isRunning}
-                variant="default"
-              >
-                {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                {isRunning ? "Running..." : "Start Sorting"}
-              </Button>
-            )}
+            <div className="flex flex-1 gap-2">
+              {isEducationalMode ? (
+                <Button
+                  className="flex-1 gap-2"
+                  onClick={onStep}
+                  disabled={isRunning}
+                  variant="default"
+                >
+                  <span className="text-lg">👉</span>
+                  Next Step
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    className="flex-1 gap-2"
+                    onClick={onStart}
+                    disabled={isRunning}
+                    variant="default"
+                  >
+                    {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                    {isRunning ? "Running..." : "Start Sorting"}
+                  </Button>
+                  {isRunning && (
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        onStart(); // This will stop the animation as it toggles the state
+                      }}
+                    >
+                      Stop
+                    </Button>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
